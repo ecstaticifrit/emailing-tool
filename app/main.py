@@ -15,7 +15,7 @@ app = FastAPI()
 async def send_email_api(payload: dict, request: Request, background_tasks: BackgroundTasks):
     email_id = str(uuid.uuid4())
 
-    base_url = str(request.base_url).rstrip("/")
+    base_url = "https://emailing-tool-al5d.onrender.com"
     html = process_email_html(payload["body"], email_id, base_url)
 
     insert("emails", {
