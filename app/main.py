@@ -12,10 +12,11 @@ app = FastAPI()
 # SEND EMAIL
 # -------------------------------
 @app.post("/send-email")
-async def send_email_api(payload: dict):
+async def send_email_api(payload: dict, request: Request):
     email_id = str(uuid.uuid4())
 
-    html = process_email_html(payload["body"], email_id)
+    base_url = str(request.base_url).rstrip("/")
+    html = process_email_html(payload["body"], email_id, base_url)
 
     insert("emails", {
         "id": email_id,

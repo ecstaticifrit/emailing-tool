@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from app.config import BASE_URL
 from app.db import insert
 
-def process_email_html(html, email_id):
+def process_email_html(html, email_id, base_url):
     soup = BeautifulSoup(html, "html.parser")
 
     # Replace links
