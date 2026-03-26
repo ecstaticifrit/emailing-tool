@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, BackgroundTasks
 from fastapi.responses import Response, RedirectResponse
 import uuid
 from app.email_sender import send_email
@@ -12,7 +12,7 @@ app = FastAPI()
 # SEND EMAIL
 # -------------------------------
 @app.post("/send-email")
-async def send_email_api(payload: dict, request: Request):
+async def send_email_api(payload: dict, request: Request, background_tasks: BackgroundTasks):
     email_id = str(uuid.uuid4())
 
     base_url = str(request.base_url).rstrip("/")
@@ -26,7 +26,9 @@ async def send_email_api(payload: dict, request: Request):
         "status": "sent"
     })
 
-    send_email(payload["to"], payload["subject"], html)
+    #send_email(payload["to"], payload["subject"], html)
+    # ✅ Run email sending in background
+    background_tasks.add_task(send_email, payload["to"], payload["subject"], html)
 
     return {"message": "Email sent", "email_id": email_id}
 
