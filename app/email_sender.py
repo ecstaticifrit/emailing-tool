@@ -12,7 +12,7 @@ def send_email(to_email, subject, html_body):
         sender=mt.Address(email="hello@demomailtrap.co", name="Mailtrap Test"),
         to=[mt.Address(email=to_email)],
         subject=subject,
-        text=html_body,
+        html=html_body,
         category="Integration Test",
     )
 
